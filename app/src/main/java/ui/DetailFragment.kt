@@ -5,12 +5,12 @@ import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.hw14.R
@@ -21,18 +21,15 @@ import java.io.IOException
 
 
 class DetailFragment : Fragment() {
-   lateinit var binding: FragmentDetailBinding
-   val vModel: MainViewModel by activityViewModels()
-    var isFavorite=false
-    var flagStartPlaying=true
-    var flagStartRecording = true
-    var voiceRecorded=false
+    private lateinit var binding: FragmentDetailBinding
+    private val vModel: MainViewModel by activityViewModels()
+    private var isFavorite=false
+    private var flagStartPlaying=true
+    private var flagStartRecording = true
+    private var voiceRecorded=false
     private var fileName=""
     private var player: MediaPlayer? = null
     private var recorder: MediaRecorder? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,14 +51,14 @@ class DetailFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun initView() {
         val id=requireArguments().getInt("id")
-        goneEditTexts()
+        disableEditTexts()
 
         vModel.getWord(id).let {
-            binding.textViewWord.text = "کلمه : ${it.word}"
-            binding.textViewMeaning.text ="معنی : ${it.Meaning}"
-            binding.textViewSynonyms.text ="مترادف : ${it.synonyms}"
-            binding.textViewExample.text ="مثال : ${it.example}"
-            binding.textViewDescription.text = "توضیحات : ${it.description}"
+            binding.editTextWord.editText?.setText( it.word)
+            binding.editTextMeaning.editText?.setText( it.Meaning)
+            binding.editTextSynonyms.editText?.setText( it.synonyms)
+            binding.editTextExample.editText?.setText( it.example)
+            binding.editTextDescription.editText?.setText( it.description)
             isFavorite=it.isFavorite
             favorite()
         }
@@ -78,18 +75,12 @@ class DetailFragment : Fragment() {
 
 
     private fun edit(id:Int) {
-        visibleEditTexts()
+        enableEditTexts()
         goneViews()
 
         vModel.getWord(id).let {
-            binding.editTextWord.setText( it.word)
-            binding.editTextMeaning.setText( it.Meaning)
-            binding.editTextSynonyms.setText( it.synonyms)
-            binding.editTextExample.setText( it.example)
-            binding.editTextDescription.setText( it.description)
-            isFavorite=it.isFavorite
+
             voiceRecorded=it.voiceRecorded
-            favorite()
         }
 
         binding.buttonFavorite.setOnClickListener {
@@ -99,16 +90,16 @@ class DetailFragment : Fragment() {
 
         binding.buttonEdit.setOnClickListener {
             when {
-                binding.editTextWord.text.isNullOrBlank() -> binding.editTextWord.error = "کلمه را وارد کنید"
-                binding.editTextMeaning.text.isNullOrBlank() -> binding.editTextMeaning.error = "معنی را وارد کنید"
-                binding.editTextSynonyms.text.isNullOrBlank() -> binding.editTextSynonyms.error = "مترادف را وارد کنید"
+                binding.editTextWord.editText?.text.isNullOrBlank() -> binding.editTextWord.error = "کلمه را وارد کنید"
+                binding.editTextMeaning.editText?.text.isNullOrBlank() -> binding.editTextMeaning.error = "معنی را وارد کنید"
+                binding.editTextSynonyms.editText?.text.isNullOrBlank() -> binding.editTextSynonyms.error = "مترادف را وارد کنید"
 
                 else -> {
-                    vModel.update(Word(id, binding.editTextWord.text.toString(),
-                        binding.editTextMeaning.text.toString(),
-                        binding.editTextSynonyms.text.toString(),
-                        binding.editTextExample.text.toString(),
-                        binding.editTextDescription.text.toString(),isFavorite,voiceRecorded))
+                    vModel.update(Word(id, binding.editTextWord.editText?.text.toString(),
+                        binding.editTextMeaning.editText?.text.toString(),
+                        binding.editTextSynonyms.editText?.text.toString(),
+                        binding.editTextExample.editText?.text.toString(),
+                        binding.editTextDescription.editText?.text.toString(),isFavorite,voiceRecorded))
 
                     Toast.makeText(requireContext(), "ویرایش کلمه انجام شد", Toast.LENGTH_SHORT)
                         .show()
@@ -120,7 +111,7 @@ class DetailFragment : Fragment() {
             binding.buttonDelete.visibility=View.VISIBLE
             binding.buttonBack.visibility=View.VISIBLE
             binding.buttonGoToWikipedia.visibility=View.VISIBLE
-            visibleTextViews()
+            //visibleTextViews()
             initView()
         }
     }
@@ -166,7 +157,7 @@ class DetailFragment : Fragment() {
     private fun recordAudio() {
 
         binding.buttonRecord.setOnClickListener {
-            if (binding.editTextWord.text.toString()=="") {
+            if (binding.editTextWord.editText?.text.toString()=="") {
                 Toast.makeText(requireContext(), "یک کلمه وارد کنید", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -195,7 +186,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun startRecording() {
-        val name=binding.editTextWord.text.toString()
+        val name=binding.editTextWord.editText?.text.toString()
         val fileName="${requireActivity().externalCacheDir?.absolutePath}/$name.3gp"
         recorder = MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
@@ -282,46 +273,33 @@ class DetailFragment : Fragment() {
 
 
 
-    private fun goneEditTexts() {
-        binding.editTextWord.visibility=View.GONE
-        binding.editTextMeaning.visibility=View.GONE
-        binding.editTextSynonyms.visibility=View.GONE
-        binding.editTextExample.visibility=View.GONE
-        binding.editTextDescription.visibility=View.GONE
+    private fun disableEditTexts() {
+        binding.editTextWord.isClickable=false
+        binding.editTextMeaning.isClickable=false
+        binding.editTextSynonyms.isClickable=false
+        binding.editTextExample.isClickable=false
+        binding.editTextDescription.isClickable=false
         binding.buttonBackToDetail.visibility=View.GONE
         binding.buttonRecord.visibility=View.GONE
     }
 
-    private fun visibleEditTexts() {
-        binding.editTextWord.visibility=View.VISIBLE
-        binding.editTextMeaning.visibility=View.VISIBLE
-        binding.editTextSynonyms.visibility=View.VISIBLE
-        binding.editTextExample.visibility=View.VISIBLE
-        binding.editTextDescription.visibility=View.VISIBLE
+    private fun enableEditTexts() {
+        binding.editTextWord.isClickable=true
+        binding.editTextMeaning.isClickable=true
+        binding.editTextSynonyms.isClickable=true
+        binding.editTextExample.isClickable=true
+        binding.editTextDescription.isClickable=true
         binding.buttonBackToDetail.visibility=View.VISIBLE
         binding.buttonRecord.visibility=View.VISIBLE
     }
 
     private fun goneViews(){
-        binding.textViewWord.visibility=View.GONE
-        binding.textViewMeaning.visibility=View.GONE
-        binding.textViewSynonyms.visibility=View.GONE
-        binding.textViewExample.visibility=View.GONE
-        binding.textViewDescription.visibility=View.GONE
-
         binding.buttonDelete.visibility=View.INVISIBLE
         binding.buttonBack.visibility=View.GONE
         binding.buttonGoToWikipedia.visibility=View.GONE
         binding.buttonRecord.visibility=View.VISIBLE
     }
 
-    private fun visibleTextViews(){
-        binding.textViewWord.visibility=View.VISIBLE
-        binding.textViewMeaning.visibility=View.VISIBLE
-        binding.textViewSynonyms.visibility=View.VISIBLE
-        binding.textViewExample.visibility=View.VISIBLE
-        binding.textViewDescription.visibility=View.VISIBLE
-    }
 
 
 }
