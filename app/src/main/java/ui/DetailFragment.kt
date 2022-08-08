@@ -5,12 +5,12 @@ import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.hw14.R
@@ -21,18 +21,15 @@ import java.io.IOException
 
 
 class DetailFragment : Fragment() {
-   lateinit var binding: FragmentDetailBinding
-   val vModel: MainViewModel by activityViewModels()
-    var isFavorite=false
-    var flagStartPlaying=true
-    var flagStartRecording = true
-    var voiceRecorded=false
+    private lateinit var binding: FragmentDetailBinding
+    private val vModel: MainViewModel by activityViewModels()
+    private var isFavorite=false
+    private var flagStartPlaying=true
+    private var flagStartRecording = true
+    private var voiceRecorded=false
     private var fileName=""
     private var player: MediaPlayer? = null
     private var recorder: MediaRecorder? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,11 +79,11 @@ class DetailFragment : Fragment() {
         goneViews()
 
         vModel.getWord(id).let {
-            binding.editTextWord.setText( it.word)
-            binding.editTextMeaning.setText( it.Meaning)
-            binding.editTextSynonyms.setText( it.synonyms)
-            binding.editTextExample.setText( it.example)
-            binding.editTextDescription.setText( it.description)
+            binding.editTextWord.editText?.setText( it.word)
+            binding.editTextMeaning.editText?.setText( it.Meaning)
+            binding.editTextSynonyms.editText?.setText( it.synonyms)
+            binding.editTextExample.editText?.setText( it.example)
+            binding.editTextDescription.editText?.setText( it.description)
             isFavorite=it.isFavorite
             voiceRecorded=it.voiceRecorded
             favorite()
@@ -99,16 +96,16 @@ class DetailFragment : Fragment() {
 
         binding.buttonEdit.setOnClickListener {
             when {
-                binding.editTextWord.text.isNullOrBlank() -> binding.editTextWord.error = "کلمه را وارد کنید"
-                binding.editTextMeaning.text.isNullOrBlank() -> binding.editTextMeaning.error = "معنی را وارد کنید"
-                binding.editTextSynonyms.text.isNullOrBlank() -> binding.editTextSynonyms.error = "مترادف را وارد کنید"
+                binding.editTextWord.editText?.text.isNullOrBlank() -> binding.editTextWord.error = "کلمه را وارد کنید"
+                binding.editTextMeaning.editText?.text.isNullOrBlank() -> binding.editTextMeaning.error = "معنی را وارد کنید"
+                binding.editTextSynonyms.editText?.text.isNullOrBlank() -> binding.editTextSynonyms.error = "مترادف را وارد کنید"
 
                 else -> {
-                    vModel.update(Word(id, binding.editTextWord.text.toString(),
-                        binding.editTextMeaning.text.toString(),
-                        binding.editTextSynonyms.text.toString(),
-                        binding.editTextExample.text.toString(),
-                        binding.editTextDescription.text.toString(),isFavorite,voiceRecorded))
+                    vModel.update(Word(id, binding.editTextWord.editText?.text.toString(),
+                        binding.editTextMeaning.editText?.text.toString(),
+                        binding.editTextSynonyms.editText?.text.toString(),
+                        binding.editTextExample.editText?.text.toString(),
+                        binding.editTextDescription.editText?.text.toString(),isFavorite,voiceRecorded))
 
                     Toast.makeText(requireContext(), "ویرایش کلمه انجام شد", Toast.LENGTH_SHORT)
                         .show()
@@ -166,7 +163,7 @@ class DetailFragment : Fragment() {
     private fun recordAudio() {
 
         binding.buttonRecord.setOnClickListener {
-            if (binding.editTextWord.text.toString()=="") {
+            if (binding.editTextWord.editText?.text.toString()=="") {
                 Toast.makeText(requireContext(), "یک کلمه وارد کنید", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -195,7 +192,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun startRecording() {
-        val name=binding.editTextWord.text.toString()
+        val name=binding.editTextWord.editText?.text.toString()
         val fileName="${requireActivity().externalCacheDir?.absolutePath}/$name.3gp"
         recorder = MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)

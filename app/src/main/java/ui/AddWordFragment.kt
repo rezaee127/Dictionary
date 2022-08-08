@@ -5,12 +5,12 @@ import android.content.pm.PackageManager
 import android.media.MediaRecorder
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.hw14.R
@@ -23,9 +23,9 @@ import java.io.IOException
 class AddWordFragment : Fragment() {
     private lateinit var binding:FragmentAddWordBinding
     private val vModel: MainViewModel by activityViewModels()
-    var isFavorite=false
-    var flagStartRecording = true
-    var voiceRecorded=false
+    private var isFavorite=false
+    private var flagStartRecording = true
+    private var voiceRecorded=false
     private var recorder: MediaRecorder? = null
 
     private var permissionToRecordAccepted = false
@@ -49,10 +49,6 @@ class AddWordFragment : Fragment() {
 
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,17 +77,17 @@ class AddWordFragment : Fragment() {
 
         binding.buttonSave.setOnClickListener {
             when{
-                binding.editTextWord.text.isNullOrBlank()-> binding.editTextWord.error="کلمه را وارد کنید"
-                vModel.searchWord(binding.editTextWord.text.toString())!=0->binding.editTextWord.error="این کلمه قبلا وارد شده است"
-                binding.editTextMeaning.text.isNullOrBlank()-> binding.editTextMeaning.error="معنی را وارد کنید"
-                binding.editTextSynonyms.text.isNullOrBlank()-> binding.editTextSynonyms.error="مترادف را وارد کنید"
+                binding.editTextWord.editText?.text.isNullOrBlank()-> binding.editTextWord.error="کلمه را وارد کنید"
+                vModel.searchWord(binding.editTextWord.editText?.text.toString())!=0->binding.editTextWord.error="این کلمه قبلا وارد شده است"
+                binding.editTextMeaning.editText?.text.isNullOrBlank()-> binding.editTextMeaning.error="معنی را وارد کنید"
+                binding.editTextSynonyms.editText?.text.isNullOrBlank()-> binding.editTextSynonyms.error="مترادف را وارد کنید"
 
                 else ->{
 
                    // binding.buttonSave.setOnClickListener {
-                        vModel.insert(Word(0,binding.editTextWord.text.toString(),
-                            binding.editTextMeaning.text.toString(),binding.editTextSynonyms.text.toString(),
-                            binding.editTextExample.text.toString(),binding.editTextDescription.text.toString(),isFavorite,voiceRecorded))
+                        vModel.insert(Word(0,binding.editTextWord.editText?.text.toString(),
+                            binding.editTextMeaning.editText?.text.toString(),binding.editTextSynonyms.editText?.text.toString(),
+                            binding.editTextExample.editText?.text.toString(),binding.editTextDescription.editText?.text.toString(),isFavorite,voiceRecorded))
                         Toast.makeText(requireActivity(),"کلمه ذخیره شد", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.action_addWordFragment_to_searchWordFragment)
                      //}
@@ -103,7 +99,7 @@ class AddWordFragment : Fragment() {
     private fun recordAudio() {
 
         binding.buttonRecord.setOnClickListener {
-            if (binding.editTextWord.text.toString()=="") {
+            if (binding.editTextWord.editText?.text.toString()=="") {
                 Toast.makeText(requireContext(), "یک کلمه وارد کنید", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -138,7 +134,7 @@ class AddWordFragment : Fragment() {
     }
 
     private fun startRecording() {
-        val name=binding.editTextWord.text.toString()
+        val name=binding.editTextWord.editText?.text.toString()
         val fileName="${requireActivity().externalCacheDir?.absolutePath}/$name.3gp"
         recorder = MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
