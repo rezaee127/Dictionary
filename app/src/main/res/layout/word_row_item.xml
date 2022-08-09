@@ -18,7 +18,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:minHeight="40dp"
-        android:text="TextView"
+        android:text=""
         tools:layout_editor_absoluteX="242dp"
         tools:layout_editor_absoluteY="75dp" />
 
@@ -29,7 +29,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:minHeight="40dp"
-        android:text="TextView"
+        android:text=""
         tools:layout_editor_absoluteX="133dp"
         tools:layout_editor_absoluteY="75dp" />
 
