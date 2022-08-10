@@ -18,12 +18,11 @@
 <br>
 
  - MVVM Architecture
- - Using LiveData , DataBinding , WebView and GitFlow
+ - Using LiveData , KotlinCoroutines, DataBinding , WebView and GitFlow
  <br>
 
  
  ## External Libraries 
  - Room DataBase
  - Hilt
- - Glide
  - Material
