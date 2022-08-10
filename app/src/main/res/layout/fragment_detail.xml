@@ -5,6 +5,7 @@
     android:id="@+id/detailFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/whiteBack2"
     tools:context="ui.DetailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -163,7 +164,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginTop="16dp"
-            android:background="@color/purple_503"
+            android:background="?attr/colorPrimary"
             android:src="@drawable/ic_baseline_play_arrow_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -174,7 +175,7 @@
             android:id="@+id/buttonFavorite"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@color/purple_503"
+            android:background="?attr/colorPrimary"
             android:src="@drawable/ic_baseline_favorite_border_24"
             app:layout_constraintBottom_toBottomOf="@+id/buttonPlay"
             app:layout_constraintEnd_toStartOf="@+id/buttonGoToWikipedia"
@@ -187,7 +188,7 @@
             android:id="@+id/buttonGoToWikipedia"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@color/purple_503"
+            android:background="?attr/colorPrimary"
             android:src="@drawable/w12"
             app:layout_constraintBottom_toBottomOf="@+id/buttonPlay"
             app:layout_constraintEnd_toStartOf="@+id/buttonRecord"
@@ -200,7 +201,7 @@
             android:id="@+id/buttonRecord"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@color/purple_503"
+            android:background="?attr/colorPrimary"
             android:src="@drawable/ic_baseline_mic_24"
             app:layout_constraintBottom_toBottomOf="@+id/buttonPlay"
             app:layout_constraintEnd_toStartOf="@+id/buttonPlay"

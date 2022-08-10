@@ -20,10 +20,10 @@
 <!--    <color name="purple_702">#AD1457</color>-->
 <!--    <color name="white2">#D2E6E8</color>-->
 <!--    <color name="whiteBack2">#EEEEEE</color>-->
-
+    <color name="purple_513">#1d2b64</color>
     <color name="purple_502">#880E4F</color>
     <color name="purple_503">#BA880E4F</color>
     <color name="purple_702">#AD1457</color>
     <color name="white2">#D2E6E8</color>
-    <color name="whiteBack2">#E1BEE7</color>
+    <color name="whiteBack2">#eeeeee</color>
 </resources>
