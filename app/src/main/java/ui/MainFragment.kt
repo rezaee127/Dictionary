@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -33,13 +33,30 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().title="Home"
         initView()
         setRecyclerView()
+        onBackPressed()
+    }
 
+    private fun onBackPressed() {
+        requireActivity().onBackPressedDispatcher
+            .addCallback(requireActivity(), object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+
+                    if(requireActivity().title=="Home"){
+                        requireActivity().supportFragmentManager.clearBackStack("")
+                        requireActivity().finishAffinity()
+                    } else if (isEnabled) {
+                        isEnabled = false
+                        requireActivity().onBackPressed()
+                    }
+                }
+            })
     }
 
     private fun setRecyclerView() {
-        val wordAdapter = WordAdapter({ goToDetailFragment(it) })
+        val wordAdapter = WordAdapter { goToDetailFragment(it) }
         binding.recyclerView.adapter = wordAdapter
         wordAdapter.submitList(vModel.getWordList())
     }
