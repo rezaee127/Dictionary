@@ -1,7 +1,6 @@
 package ui
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,8 +17,8 @@ import viewModels.MainViewModel
 
 
 class MainFragment : Fragment() {
-    lateinit var binding: FragmentMainBinding
-    val vModel: MainViewModel by activityViewModels()
+    private lateinit var binding: FragmentMainBinding
+    private val vModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,9 +89,7 @@ class MainFragment : Fragment() {
                 vModel.searchMeaning(binding.editTextSearch.text.toString()) == 0) {
                 val dialog = AlertDialog.Builder(requireContext())
                 dialog.setMessage("The desired word does not exist")
-                    .setPositiveButton("OK",
-                        DialogInterface.OnClickListener { dialog, id ->
-                        })
+                    .setPositiveButton("OK") { _, _ -> }
                 dialog.create()
                 dialog.show()
             } else if (vModel.searchWord(binding.editTextSearch.text.toString()) != 0) {

@@ -205,9 +205,9 @@ class DetailFragment : Fragment() {
                 snkbr.dismiss()
             })
 
-                .setTextColor(ContextCompat.getColor(requireContext(),(R.color.whiteBack2)))
+                .setTextColor(ContextCompat.getColor(requireContext(),(R.color.white)))
                 .setActionTextColor(ContextCompat.getColor(requireContext(),(R.color.white)))
-                .setBackgroundTint(ContextCompat.getColor(requireContext(),(R.color.gray)))
+                .setBackgroundTint(ContextCompat.getColor(requireContext(),(R.color.purple_513)))
                 .show()
 
         }
