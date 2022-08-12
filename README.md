@@ -18,7 +18,9 @@
 <br>
 
  - MVVM Architecture
- - Using LiveData , KotlinCoroutines, DataBinding , WebView and GitFlow
+ - MediaPlayer
+ - WebView
+ - Using LiveData , KotlinCoroutines, DataBinding  and GitFlow
  <br>
 
  
